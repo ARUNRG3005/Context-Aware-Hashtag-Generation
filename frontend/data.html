@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Data Provenance | HashtagIndia Generator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23ff6b35%22>%23</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface-hover: #27272a;
+      --primary: #06d6a0;
+      --accent: #ef4444;
+      --accent2: #3b82f6;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.05);
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+    h1 span { color: var(--primary); }
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--text); }
+    
+    .table-wrap {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      background: rgba(0,0,0,0.2);
+      padding: 16px 20px;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: var(--surface-hover); }
+    
+    .ds-name { font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+    .ds-id { font-family: monospace; font-size: 12px; color: var(--accent2); background: rgba(59, 130, 246, 0.1); padding: 2px 6px; border-radius: 4px; }
+    .ds-desc { color: var(--muted); font-size: 14px; margin-top: 8px; }
+    
+    .link-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .link-btn:hover {
+      background: var(--primary);
+      color: var(--bg);
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+  <a href="index.html" class="back-link">← Back to Generator</a>
+  
+  <h1>Data <span>Provenance</span> & Audit</h1>
+  <div class="subtitle">Complete breakdown of the 40,957-row training dataset, originating sources, and HuggingFace repositories.</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Dataset</th>
+          <th>Rows Used</th>
+          <th>Original Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="ds-name">CNN/DailyMail (Filtered)</div>
+            <span class="ds-id">abisee/cnn_dailymail</span>
+            <div class="ds-desc">Global news heavily filtered for Indian relevance using keyword bounds. Capped at 10k rows.</div>
+          </td>
+          <td>~10,000</td>
+          <td><a href="https://huggingface.co/datasets/abisee/cnn_dailymail" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">BBC News AllTime</div>
+            <span class="ds-id">RealTimeData/bbc_news_alltime</span>
+            <div class="ds-desc">BBC News archives from 2010-2023. Filtered for India geography.</div>
+          </td>
+          <td>2,749</td>
+          <td><a href="https://huggingface.co/datasets/RealTimeData/bbc_news_alltime" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">HuffPost News Categories</div>
+            <span class="ds-id">heegyu/news-category-dataset</span>
+            <div class="ds-desc">200k global headlines. Extracted and filtered specifically for Indian contextual entities.</div>
+          </td>
+          <td>3,582</td>
+          <td><a href="https://huggingface.co/datasets/heegyu/news-category-dataset" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">Indian Financial News</div>
+            <span class="ds-id">GautamDaksh/Indian-News-Articles</span>
+            <div class="ds-desc">Massive dataset containing Indian business, startup, and economic developments.</div>
+          </td>
+          <td>12,773</td>
+          <td><a href="https://huggingface.co/datasets/GautamDaksh/Indian-News-Articles" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">IndicNLP Headline Generation</div>
+            <span class="ds-id">ai4bharat/IndicHeadlineGeneration</span>
+            <div class="ds-desc">High-quality Indian summaries from AI4Bharat used to reinforce the language model's Indian syntax.</div>
+          </td>
+          <td>~2,500</td>
+          <td><a href="https://huggingface.co/datasets/ai4bharat/IndicHeadlineGeneration" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">XSum (Extreme Summarization)</div>
+            <span class="ds-id">EdinburghNLP/xsum</span>
+            <div class="ds-desc">BBC summaries. Used to teach the model how to compress dense text into hashtags.</div>
+          </td>
+          <td>14,785</td>
+          <td><a href="https://huggingface.co/datasets/EdinburghNLP/xsum" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">CC News</div>
+            <span class="ds-id">cc_news</span>
+            <div class="ds-desc">Common Crawl news archive. Filtered using 55 Indian keywords.</div>
+          </td>
+          <td>~1,000</td>
+          <td><a href="https://huggingface.co/datasets/cc_news" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">NewsQA</div>
+            <span class="ds-id">newsqa</span>
+            <div class="ds-desc">Used exclusively for complex semantic relationship extraction (e.g., BJP vs Congress).</div>
+          </td>
+          <td>~500</td>
+          <td><a href="https://huggingface.co/datasets/newsqa" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">Multi-News</div>
+            <span class="ds-id">multi_news</span>
+            <div class="ds-desc">Multi-document summarization data to train the model on long-context articles.</div>
+          </td>
+          <td>~1,200</td>
+          <td><a href="https://huggingface.co/datasets/multi_news" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">Argilla News Summary</div>
+            <span class="ds-id">argilla/news-summary</span>
+            <div class="ds-desc">Human-preference datasets to refine the final hashtag outputs.</div>
+          </td>
+          <td>368</td>
+          <td><a href="https://huggingface.co/datasets/argilla/news-summary" target="_blank" class="link-btn">View on HuggingFace</a></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="ds-name">Custom Scraper</div>
+            <span class="ds-id">Local Script</span>
+            <div class="ds-desc">Live scraping from The Hindu, Times of India, and Indian Express to cover minority domain gaps like Environment and Crime.</div>
+          </td>
+          <td>~1,100</td>
+          <td><span class="link-btn" style="opacity: 0.5;">Internal Pipeline</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div style="color:var(--muted); font-size:14px; text-align:center;">
+    Total Unique Rows Generated: <strong>47,949</strong> <br>
+    Final Post-Balance Training Set: <strong>40,957</strong>
+  </div>
+
+</div>
+</body>
+</html>

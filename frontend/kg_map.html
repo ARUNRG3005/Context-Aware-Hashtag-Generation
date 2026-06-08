@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Knowledge Graph Node Map | HashtagIndia Generator</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23ff6b35%22>%23</text></svg>">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --primary: #06d6a0;
+      --accent: #ef4444;
+      --accent2: #3b82f6;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      overflow: hidden;
+    }
+    .header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .title { font-family: 'Syne', sans-serif; font-size: 24px; pointer-events: auto; }
+    .title span { color: var(--primary); }
+    .back-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      pointer-events: auto;
+    }
+    .back-link:hover { color: var(--text); }
+    
+    svg { width: 100vw; height: 100vh; cursor: grab; }
+    svg:active { cursor: grabbing; }
+    
+    .node circle {
+      stroke: #09090b;
+      stroke-width: 3px;
+      transition: fill 0.2s;
+    }
+    .node:hover circle {
+      stroke: #fff;
+    }
+    .node text {
+      font-family: 'Outfit', sans-serif;
+      pointer-events: none;
+    }
+    .node-label { font-size: 14px; fill: #fff; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+    .node-count { font-size: 11px; fill: var(--primary); font-weight: 800; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+    .link { stroke: rgba(255,255,255,0.1); stroke-width: 1.5px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">Hashtag<span>India</span> KG Map</div>
+  <a href="index.html" class="back-link">← Back to Generator</a>
+</div>
+
+<svg id="viz"></svg>
+
+<script>
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const svg = d3.select("#viz")
+    .call(d3.zoom().on("zoom", (event) => g.attr("transform", event.transform)))
+    .append("g");
+    
+  const g = svg.append("g");
+
+  const rootData = {
+  "name": "India KG",
+  "children": [
+    {
+      "name": "ArtsAndCulture",
+      "children": [
+        { "name": "Festivals", "value": 62, "isLeaf": true },
+        { "name": "Heritage", "value": 91, "isLeaf": true },
+        { "name": "Literature", "value": 169, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Business",
+      "children": [
+        { "name": "Indian Business", "value": 1409, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Crime",
+      "children": [
+        { "name": "Controversies", "value": 75, "isLeaf": true },
+        { "name": "Indian Law", "value": 23, "isLeaf": true },
+        { "name": "Law Enforcement", "value": 2, "isLeaf": true },
+        { "name": "Social Issues", "value": 20, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Defense",
+      "children": [
+        { "name": "Armed Forces", "value": 55, "isLeaf": true },
+        { "name": "Army Regiments", "value": 6, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Disasters",
+      "children": [
+        { "name": "Natural Disasters", "value": 29, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Economy",
+      "children": [
+        { "name": "Banks", "value": 9, "isLeaf": true },
+        { "name": "Indian Economy", "value": 56, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Education",
+      "children": [
+        { "name": "Institutes", "value": 55, "isLeaf": true },
+        { "name": "Universities", "value": 6, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Entertainment",
+      "children": [
+        { "name": "Bollywood", "value": 216, "isLeaf": true },
+        { "name": "Indian Cinema", "value": 556, "isLeaf": true },
+        { "name": "Kollywood", "value": 48, "isLeaf": true },
+        { "name": "Mollywood", "value": 128, "isLeaf": true },
+        { "name": "Sandalwood", "value": 16, "isLeaf": true },
+        { "name": "Tollywood", "value": 19, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Environment",
+      "children": [
+        { "name": "Climate Issues", "value": 23, "isLeaf": true },
+        { "name": "National Parks", "value": 1, "isLeaf": true },
+        { "name": "Rivers", "value": 18, "isLeaf": true },
+        { "name": "Wildlife", "value": 26, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Events",
+      "children": [
+        { "name": "India Event", "value": 2, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Geopolitics",
+      "children": [
+        { "name": "Foreign Policy", "value": 59, "isLeaf": true },
+        { "name": "Treaties", "value": 257, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Health",
+      "children": [
+        { "name": "Hospitals", "value": 13, "isLeaf": true },
+        { "name": "Medical Institutions", "value": 11, "isLeaf": true },
+        { "name": "Public Health", "value": 12, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "children": [
+        { "name": "Transit", "value": 3, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "LawAndJustice",
+      "children": [
+        { "name": "Judges", "value": 82, "isLeaf": true },
+        { "name": "Law", "value": 118, "isLeaf": true },
+        { "name": "Supreme Court", "value": 61, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Places",
+      "children": [
+        { "name": "Indian City", "value": 190, "isLeaf": true },
+        { "name": "Indian State", "value": 38, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Politics",
+      "children": [
+        { "name": "Elections", "value": 217, "isLeaf": true },
+        { "name": "Indian Politics", "value": 193, "isLeaf": true },
+        { "name": "Political Party", "value": 263, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Science",
+      "children": [
+        { "name": "Indian Science", "value": 495, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Sports",
+      "children": [
+        { "name": "Athletics", "value": 9091, "isLeaf": true },
+        { "name": "Cricket", "value": 2, "isLeaf": true }
+      ]
+    },
+    {
+      "name": "Startups",
+      "children": [
+        { "name": "Tech Startups", "value": 20, "isLeaf": true }
+      ]
+    }
+  ]
+};
+
+  let root = d3.hierarchy(rootData);
+  
+  // Collapse all domains by default
+  root.children.forEach(d => {
+      d._children = d.children;
+      d.children = null;
+  });
+  
+  let link = g.append("g").attr("class", "links").selectAll(".link");
+  let node = g.append("g").attr("class", "nodes").selectAll(".node");
+  
+  const simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(d => d.id).distance(150).strength(1))
+    .force("charge", d3.forceManyBody().strength(-1000))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("collide", d3.forceCollide().radius(d => d.r + 10));
+
+  function update() {
+    const nodes = root.descendants();
+    const links = root.links();
+    
+    // Calculate radius
+    nodes.forEach((d, i) => {
+      d.id = d.id || i;
+      if (d.depth === 0) d.r = 45;
+      else if (d.depth === 1) d.r = 35;
+      else d.r = 25 + Math.sqrt(d.data.value || 0) * 1.5;
+    });
+
+    // Update links
+    link = link.data(links, d => d.target.id);
+    link.exit().remove();
+    const linkEnter = link.enter().append("line").attr("class", "link");
+    link = linkEnter.merge(link);
+
+    // Update nodes
+    node = node.data(nodes, d => d.id);
+    node.exit().transition().duration(250).attr("r", 0).remove();
+    
+    const nodeEnter = node.enter().append("g")
+      .attr("class", "node")
+      .on("click", click)
+      .call(d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended));
+
+    nodeEnter.append("circle")
+      .attr("r", d => d.r);
+
+    nodeEnter.append("text")
+      .attr("class", "node-label")
+      .attr("dy", d => d.depth === 2 ? "-0.5em" : "0.3em")
+      .attr("text-anchor", "middle")
+      .text(d => d.data.name);
+
+    nodeEnter.filter(d => d.depth === 2).append("text")
+      .attr("class", "node-count")
+      .attr("dy", "1em")
+      .attr("text-anchor", "middle")
+      .text(d => d.data.value + " entities");
+
+    node = nodeEnter.merge(node);
+    
+    node.select("circle")
+      .attr("fill", d => {
+        if (d.depth === 0) return "#ef4444"; // Root
+        if (d.depth === 1) return d._children ? "#3b82f6" : "#06d6a0"; // Domain
+        return "#18181b"; // Subdomain
+      });
+
+    simulation.nodes(nodes).on("tick", tick);
+    simulation.force("link").links(links);
+    simulation.alpha(1).restart();
+  }
+
+  function tick() {
+    link
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y);
+
+    node.attr("transform", d => `translate(${d.x},${d.y})`);
+  }
+
+  function click(event, d) {
+    if (!event.defaultPrevented) {
+      if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+      update();
+    }
+  }
+
+  function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+
+  function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+  }
+
+  function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+
+  update();
+</script>
+</body>
+</html>

@@ -1,0 +1,1528 @@
+cat << 'ENDOFFILE' > /mnt/user-data/outputs/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HashtagIndia Generator</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%23ff6b35%22>%23</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #ff6b35;
+    --accent2: #7c3aed;
+    --accent3: #06d6a0;
+    --text: #f0f0f5;
+    --muted: #6b6b80;
+    --grid: rgba(255,107,53,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -200px; }
+  .orb-2 { width: 500px; height: 500px; background: var(--accent2); bottom: -150px; left: -150px; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  header {
+    padding: 32px 0 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+  }
+  .logo-text span { color: var(--accent); }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6,214,160,0.1);
+    border: 1px solid rgba(6,214,160,0.2);
+    color: var(--accent3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+  .hero-label {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255,107,53,0.08);
+    border: 1px solid rgba(255,107,53,0.2);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+  .hero-title .highlight {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 560px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 300;
+  }
+
+  /* ── SYSTEM STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 64px;
+  }
+  .stat-cell {
+    background: var(--surface);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: background 0.2s;
+  }
+  .stat-cell:hover { background: var(--surface2); }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stat-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .stat-value.accent { color: var(--accent); }
+  .stat-value.green { color: var(--accent3); }
+  .stat-sub {
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    margin-bottom: 64px;
+  }
+
+  /* ── PANEL ── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-title .icon { color: var(--accent); font-size: 16px; }
+  .panel-body { padding: 24px; }
+
+  /* ── INPUT SECTION ── */
+  .input-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    resize: none;
+    height: 160px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
+  }
+  textarea::placeholder { color: var(--muted); }
+
+  .input-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .char-count { font-size: 11px; color: var(--muted); }
+  .char-count span { color: var(--text); }
+
+  .btn-generate {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent), #ff8c5a);
+    border: none;
+    border-radius: 10px;
+    padding: 16px 24px;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-generate:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255,107,53,0.35);
+  }
+  .btn-generate:active { transform: translateY(0); }
+  .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-generate .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .btn-generate.loading .spinner { display: block; }
+  .btn-generate.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── SAMPLE PILLS ── */
+  .samples-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+  .samples-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sample-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .sample-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(255,107,53,0.05);
+  }
+
+  /* ── RESULTS ── */
+  .results-area {
+    min-height: 200px;
+  }
+  .results-placeholder {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+  .results-placeholder .icon { font-size: 32px; opacity: 0.4; }
+  .results-placeholder p { font-size: 12px; }
+
+  .hashtag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .hashtag-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    animation: chipIn 0.3s ease backwards;
+  }
+  .hashtag-chip:hover {
+    border-color: var(--accent);
+    background: rgba(255,107,53,0.08);
+    transform: translateY(-2px);
+  }
+  .hashtag-chip .tag-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .hashtag-chip .tag-score {
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .hashtag-chip.high { border-color: rgba(6,214,160,0.3); }
+  .hashtag-chip.high .tag-text { color: var(--accent3); }
+  .hashtag-chip.mid { border-color: rgba(255,107,53,0.3); }
+  .hashtag-chip.mid .tag-text { color: var(--accent); }
+  .hashtag-chip.low { border-color: var(--border); }
+  .hashtag-chip.low .tag-text { color: var(--muted); }
+
+  @keyframes chipIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Confidence bars */
+  .confidence-section { margin-bottom: 20px; }
+  .conf-title {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+  .conf-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    animation: fadeIn 0.3s ease backwards;
+  }
+  .conf-label {
+    font-size: 12px;
+    color: var(--text);
+    width: 160px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .conf-bar-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .conf-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    width: 0;
+  }
+  .conf-bar.high { background: linear-gradient(90deg, var(--accent3), #04b589); }
+  .conf-bar.mid  { background: linear-gradient(90deg, var(--accent), #ff8c5a); }
+  .conf-bar.low  { background: linear-gradient(90deg, var(--accent2), #9d6ff1); }
+  .conf-val {
+    font-size: 11px;
+    color: var(--muted);
+    width: 36px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Copy row */
+  .copy-row {
+    display: flex;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .btn-copy {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── RIGHT PANEL ── */
+  .right-col { display: flex; flex-direction: column; gap: 24px; }
+
+  /* Pipeline panel */
+  .pipeline-steps { display: flex; flex-direction: column; gap: 0; }
+  .pipeline-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .pipeline-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+  .pipeline-step.active .step-num {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    box-shadow: 0 0 12px rgba(255,107,53,0.4);
+  }
+  .pipeline-step.done .step-num {
+    background: var(--accent3);
+    border-color: var(--accent3);
+    color: var(--bg);
+  }
+  .step-info {}
+  .step-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+  .step-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* Model info panel */
+  .model-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .info-cell {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .info-cell-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .info-cell-val { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; }
+  .info-cell-val.orange { color: var(--accent); }
+  .info-cell-val.green  { color: var(--accent3); }
+  .info-cell-val.purple { color: #a78bfa; }
+
+  /* Training log panel */
+  .epoch-table { width: 100%; border-collapse: collapse; }
+  .epoch-table th {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .epoch-table td {
+    padding: 10px 10px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+  }
+  .epoch-table tr:last-child td { border-bottom: none; }
+  .epoch-table tr.best-row td { color: var(--accent3); }
+  .epoch-table tr.best-row td:first-child::before {
+    content: '★ ';
+    color: var(--accent3);
+  }
+  .f1-bar {
+    display: inline-block;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+
+  /* Label distribution */
+  .label-dist { display: flex; flex-direction: column; gap: 6px; }
+  .domain-row { display: flex; align-items: center; gap: 10px; }
+  .domain-name { font-size: 11px; color: var(--muted); width: 100px; flex-shrink: 0; }
+  .domain-bar-wrap { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+  .domain-bar { height: 100%; border-radius: 4px; }
+  .domain-count { font-size: 11px; color: var(--text); width: 40px; text-align: right; flex-shrink: 0; }
+
+  /* ── ARCHITECTURE SECTION ── */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .section-title span { color: var(--accent); font-family: 'Instrument Serif', serif; font-style: italic; }
+  .section-sub { color: var(--muted); font-size: 13px; margin-bottom: 40px; }
+
+  .arch-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .arch-step {
+    background: var(--surface);
+    padding: 28px 20px;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .arch-step:hover { background: var(--surface2); }
+  .arch-step::after {
+    content: '→';
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--border);
+    font-size: 18px;
+    z-index: 2;
+  }
+  .arch-step:last-child::after { display: none; }
+  .arch-step-num {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .arch-step-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .arch-step-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .arch-step-tech {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tech-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(124,58,237,0.15);
+    border: 1px solid rgba(124,58,237,0.25);
+    color: #a78bfa;
+  }
+
+  /* ── DATA SECTION ── */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .data-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .data-card-icon { font-size: 24px; margin-bottom: 12px; }
+  .data-card-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .data-card-desc { font-size: 11px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+  .data-card-rows {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .data-card-rows span { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-weight: 400; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    color: var(--muted);
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+  .api-endpoint {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--accent3);
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--accent3);
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 12px;
+    color: var(--accent3);
+    z-index: 999;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── ERROR ── */
+  .error-box {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 10px;
+    padding: 16px;
+    color: #fca5a5;
+    font-size: 12px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .error-box.show { display: block; }
+
+  /* ── RESPONSE TIME ── */
+  .perf-row {
+    display: flex;
+    gap: 16px;
+    padding-top: 16px;
+    margin-top: 4px;
+  }
+  .perf-cell {
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .perf-cell span { color: var(--accent3); font-weight: 500; }
+
+  /* tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .tab {
+    padding: 10px 18px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* JSON view */
+  .json-view {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .json-key { color: #7c3aed; }
+  .json-str { color: var(--accent3); }
+  .json-num { color: var(--accent); }
+  .json-bracket { color: var(--muted); }
+
+  /* section spacing */
+  .section { padding: 64px 0; border-top: 1px solid var(--border); }
+
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(3, 1fr); }
+    .arch-flow { grid-template-columns: 1fr; }
+    .arch-step::after { display: none; }
+    .data-grid { grid-template-columns: 1fr; }
+    .model-info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="wrap">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon" style="background:var(--accent);color:#fff;">#</div>
+        <div class="logo-text">Hashtag<span>India</span></div>
+      </div>
+      <div class="header-meta">
+        <a href="kg_map.html" style="color:var(--primary); text-decoration:none; font-family:'Syne',sans-serif; font-weight:700; font-size:13px; margin-right:15px;">[ KG MAP ]</a>
+        <a href="data.html" style="color:var(--primary); text-decoration:none; font-family:'Syne',sans-serif; font-weight:700; font-size:13px; margin-right:20px;">[ DATA PROVENANCE ]</a>
+      <div class="status-pill">
+        <div class="status-dot"></div>API Connecting...
+      </div>
+      <div class="model-meta">roberta-base · F1: 0.7909</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-label">🇮🇳 NLP · Multi-label Classification · India News</div>
+    <h1 class="hero-title">
+      ML-Powered<br><span class="highlight">Hashtag Generator</span>
+    </h1>
+    <p class="hero-subtitle">
+      Fine-tuned roberta-base on 40,957 India news articles.<br>
+      Two-layer inference: neural classification + entity boost.
+    </p>
+  </div>
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stat-cell">
+      <div class="stat-label">Model</div>
+      <div class="stat-value accent">roberta</div>
+      <div class="stat-sub">-base · 125M params</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Val F1 Score</div>
+          <div class="stat-value" style="color:var(--primary)">0.7909</div>
+      <div class="stat-sub">Precision: 0.8775</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Training Data</div>
+          <div class="stat-value">40,957</div>
+      <div class="stat-sub">rows · 4 sources</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Labels</div>
+          <div class="stat-value">1,220</div>
+      <div class="stat-sub">unique hashtags</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Epochs</div>
+          <div class="stat-value">6</div>
+      <div class="stat-sub">~254s per epoch</div>
+    </div>
+  </div>
+
+  <!-- ── MAIN GRID ── -->
+  <div class="main-grid">
+
+    <!-- LEFT: INPUT + RESULTS -->
+    <div>
+      <div class="panel" style="margin-bottom:24px">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">✦</span> Input</div>
+          <div style="font-size:11px;color:var(--muted)">POST /predict</div>
+        </div>
+        <div class="panel-body">
+          <div class="input-wrap">
+            <textarea id="inputText" placeholder="Paste any India news headline or paragraph here...
+e.g. Virat Kohli scored a century as India beat Afghanistan in the first ODI at Mohali." maxlength="2500"></textarea>
+          </div>
+          <div class="input-meta">
+            <div class="char-count"><span id="charCount">0</span> / 2500 characters</div>
+            <div style="font-size:11px;color:var(--muted)">threshold: 0.30</div>
+          </div>
+          <button class="btn-generate" id="generateBtn" onclick="generate()">
+            <div class="spinner"></div>
+            <span class="btn-text">⚡ Generate Hashtags</span>
+          </button>
+          <div class="samples-label">Try a sample</div>
+          <div class="samples-grid" id="samplesGrid"></div>
+        </div>
+      </div>
+
+      <!-- RESULTS PANEL -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">#</span> Results</div>
+          <div id="resultMeta" style="font-size:11px;color:var(--muted)">—</div>
+        </div>
+        <div class="panel-body">
+          <div id="hwHudBox"></div>
+          <div class="error-box" id="errorBox"></div>
+
+          <div class="tabs">
+            <div class="tab active" onclick="switchTab('visual')">Visual</div>
+            <div class="tab" onclick="switchTab('confidence')">Confidence Bars</div>
+            <div class="tab" onclick="switchTab('json')">Raw JSON</div>
+          </div>
+
+          <div class="tab-pane active" id="tab-visual">
+            <div class="results-area" id="visualResults">
+              <div class="results-placeholder">
+                <div class="icon">◈</div>
+                <p>Hashtags will appear here</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-confidence">
+            <div id="confResults">
+              <div class="results-placeholder">
+                <div class="icon">◈</div>
+                <p>Confidence scores will appear here</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-json">
+            <div id="jsonResults">
+              <div class="results-placeholder">
+                <div class="icon">◈</div>
+                <p>Raw API response will appear here</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="copyRow" style="display:none">
+            <div class="perf-row">
+              <div class="perf-cell">⚡ Response: <span id="respTime">—</span></div>
+              <div class="perf-cell">🏷 Tags: <span id="tagCount">—</span></div>
+              <div class="perf-cell">📊 Avg confidence: <span id="avgConf">—</span></div>
+            </div>
+            <div class="copy-row">
+              <button class="btn-copy" onclick="copyHashtags()">⎘ Copy Hashtags</button>
+              <button class="btn-copy" onclick="copyJSON()">{ } Copy JSON</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COL -->
+    <div class="right-col">
+
+      <!-- Pipeline -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">⟳</span> Inference Pipeline</div>
+        </div>
+        <div class="panel-body" style="padding-top:8px">
+          <div class="pipeline-steps">
+            <div class="pipeline-step" id="step-1">
+              <div class="step-num">1</div>
+              <div class="step-info">
+                <div class="step-name">Tokenisation</div>
+                <div class="step-desc">RoBERTa tokenizer splits text into subword tokens (max 128)</div>
+              </div>
+            </div>
+            <div class="pipeline-step" id="step-2">
+              <div class="step-num">2</div>
+              <div class="step-info">
+                <div class="step-name">Transformer Encoding</div>
+                <div class="step-desc">12-layer attention over token embeddings → [CLS] representation</div>
+              </div>
+            </div>
+            <div class="pipeline-step" id="step-3">
+              <div class="step-num">3</div>
+              <div class="step-info">
+                <div class="step-name">Classification Head</div>
+                <div class="step-desc">Dense → sigmoid → 80 independent probabilities</div>
+              </div>
+            </div>
+            <div class="pipeline-step" id="step-4">
+              <div class="step-num">4</div>
+              <div class="step-info">
+                <div class="step-name">Suppression</div>
+                <div class="step-desc">Zeros out domain tags with no supporting keywords (e.g. Cricket tags on non-cricket text)</div>
+              </div>
+            </div>
+            <div class="pipeline-step" id="step-5">
+              <div class="step-num">5</div>
+              <div class="step-info">
+                <div class="step-name">Entity Boost</div>
+                <div class="step-desc">Named Indian entities (Kohli, ISRO, BJP…) force specific tags to 0.85</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model Info -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">◎</span> Model Config</div>
+        </div>
+        <div class="panel-body">
+          <div class="model-info-grid">
+            <div class="info-cell">
+              <div class="info-cell-label">Architecture</div>
+              <div class="info-cell-val orange">RoBERTa</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Parameters</div>
+              <div class="info-cell-val">124.7M</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Max Length</div>
+              <div class="info-cell-val purple">128</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Batch Size</div>
+              <div class="info-cell-val">8</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Learning Rate</div>
+              <div class="info-cell-val orange">2e-5</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Loss</div>
+              <div class="info-cell-val purple">BCE</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">Threshold</div>
+              <div class="info-cell-val green">0.30</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label">GPU</div>
+              <div class="info-cell-val" style="font-size:11px">RTX 3050</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Training log -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title"><span class="icon">📈</span> Training Log</div>
+        </div>
+        <div class="panel-body" style="padding:0">
+          <table class="epoch-table">
+            <thead>
+              <tr>
+                <th>Epoch</th>
+                <th>Train Loss</th>
+                <th>Val F1</th>
+                <th>Precision</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>0.2141</td><td>0.6433 <span class="f1-bar" style="width:43px"></span></td><td>0.8362</td></tr>
+              <tr><td>2</td><td>0.0719</td><td>0.7668 <span class="f1-bar" style="width:51px"></span></td><td>0.8065</td></tr>
+              <tr><td>3</td><td>0.0496</td><td>0.8259 <span class="f1-bar" style="width:55px"></span></td><td>0.8510</td></tr>
+              <tr><td>4</td><td>0.0382</td><td>0.8512 <span class="f1-bar" style="width:57px"></span></td><td>0.8748</td></tr>
+              <tr class="best-row"><td>5</td><td>0.0318</td><td>0.8593 <span class="f1-bar" style="width:58px"></span></td><td>0.8775</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ARCHITECTURE SECTION ── -->
+  <div class="section">
+    <div class="section-title">System <span>Architecture</span></div>
+    <div class="section-sub">End-to-end pipeline from raw data to live API</div>
+
+    <div class="arch-flow">
+      <div class="arch-step">
+        <div class="arch-step-num">Step 01</div>
+        <div class="arch-step-name">Data Collection</div>
+        <div class="arch-step-desc">Scraped 1,180 India news articles + AG News (127K rows) + BBC News (10,766 articles)</div>
+        <div class="arch-step-tech">
+          <span class="tech-badge">BeautifulSoup</span>
+          <span class="tech-badge">requests</span>
+        </div>
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-num">Step 02</div>
+        <div class="arch-step-name">Preprocessing</div>
+        <div class="arch-step-desc">Clean text, India-relevance filter, domain labelling, dedup, 80/10/10 split</div>
+        <div class="arch-step-tech">
+          <span class="tech-badge">pandas</span>
+          <span class="tech-badge">regex</span>
+        </div>
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-num">Step 03</div>
+        <div class="arch-step-name">Fine-tuning</div>
+        <div class="arch-step-desc">roberta-base fine-tuned for multi-label classification. BCEWithLogitsLoss, AdamW, warmup scheduler</div>
+        <div class="arch-step-tech">
+          <span class="tech-badge">PyTorch</span>
+          <span class="tech-badge">HuggingFace</span>
+        </div>
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-num">Step 04</div>
+        <div class="arch-step-name">Inference Layer</div>
+        <div class="arch-step-desc">Two-stage: neural prediction + entity boost from India Knowledge Graph (Wikidata SPARQL)</div>
+        <div class="arch-step-tech">
+          <span class="tech-badge">KG</span>
+          <span class="tech-badge">SPARQL</span>
+        </div>
+      </div>
+      <div class="arch-step">
+        <div class="arch-step-num">Step 05</div>
+        <div class="arch-step-name">REST API</div>
+        <div class="arch-step-desc">FastAPI endpoint serving predictions. CORS enabled. Auto-docs at /docs</div>
+        <div class="arch-step-tech">
+          <span class="tech-badge">FastAPI</span>
+          <span class="tech-badge">uvicorn</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DATA SECTION ── -->
+  <div class="section">
+    <div class="section-title">Training <span>Data</span></div>
+    <div class="section-sub">Four sources combined, deduplicated, and balanced across 11 domains</div>
+
+    <div class="data-grid">
+      <div class="data-card">
+        <div class="data-card-icon">📰</div>
+        <div class="data-card-name">Indian Financial News</div>
+        <div class="data-card-desc">Livemint, The Economic Times, Moneycontrol. Highly specific to Indian business, economy, and startups.</div>
+        <div class="data-card-rows">12,773 <span>rows</span></div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">🌐</div>
+        <div class="data-card-name">Global News (Filtered)</div>
+        <div class="data-card-desc">CNN/DailyMail, AG News, and XSum. Extreme filtering for Indian relevance using keyword and Knowledge Graph bounding.</div>
+        <div class="data-card-rows">24,335 <span>rows</span></div>
+      </div>
+      <div class="data-card">
+        <div class="data-card-icon">📡</div>
+        <div class="data-card-name">BBC & Custom Scrapes</div>
+        <div class="data-card-desc">BBC News Archive + Live Scrapers for The Hindu, Times of India, and Indian Express. Fills minority domain gaps.</div>
+        <div class="data-card-rows">3,849 <span>rows</span></div>
+      </div>
+    </div>
+
+    <!-- Domain distribution -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title"><span class="icon">◫</span> Domain Distribution (Final Dataset)</div>
+        <div style="font-size:11px;color:var(--muted)">40,957 total rows in training set</div>
+      </div>
+      <div class="panel-body">
+        <div class="label-dist" id="domainDist"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LIMITATIONS SECTION ── -->
+  <div class="section">
+    <div class="section-title">Known <span>Limitations</span></div>
+    <div class="section-sub">Honest assessment — what works, what doesn't, what's next</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+      <div class="panel">
+        <div class="panel-body">
+          <div style="color:var(--accent);font-size:20px;margin-bottom:10px">⚠</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px">Class Imbalance</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">Crime (63), Environment (69), Education (105) are underrepresented. Model performs weaker on these domains. Targeted scraping pipeline ready for next iteration.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-body">
+          <div style="color:var(--accent);font-size:20px;margin-bottom:10px">⚠</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px">No ISRO Training Data</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">Zero scraped ISRO/Space articles. ISRO predictions rely entirely on entity boost layer. Would be fixed with targeted scraping of ISRO press releases.</div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-body">
+          <div style="color:var(--accent3);font-size:20px;margin-bottom:10px">✓</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;margin-bottom:8px">What's Strong</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">Politics, Sports, Business, Technology — massively represented. F1 0.7909. Handles unseen headlines generalisably. Mercedes launch → #Business without ever seeing Mercedes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="wrap">
+  <footer>
+    <div>Built for interview · roberta-base · RTX 3050 6GB · PyTorch + FastAPI</div>
+    <div class="footer-right">
+      <span class="api-endpoint">GET localhost:8000/</span>
+      <span class="api-endpoint">POST localhost:8000/predict</span>
+      <span class="api-endpoint">GET localhost:8000/docs</span>
+    </div>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:8000';
+let lastResponse = null;
+
+const SAMPLES = [
+  "Virat Kohli scores brilliant century as India beat Afghanistan in the first ODI at Mohali.",
+  "BJP wins majority in Uttar Pradesh assembly elections defeating the Samajwadi Party.",
+  "ISRO successfully launches Chandrayaan-3 from Sriharikota — reaches lunar orbit.",
+  "Reliance Jio announces 5G rollout across 50 Indian cities by December.",
+  "Zomato reports record quarterly revenue as food delivery surges post-pandemic.",
+  "Neeraj Chopra wins gold at the World Athletics Championships in Tokyo.",
+  "Supreme Court rules on reservation policy for OBC communities in Tamil Nadu.",
+  "India faces severe heatwave with temperatures crossing 45 degrees in Delhi.",
+  "Mumbai Indians defeat Chennai Super Kings by 6 wickets in thrilling IPL final.",
+  "RBI raises repo rate by 25 basis points to control inflation in India.",
+];
+
+const DOMAINS = [
+  { name: 'Politics',      count: 6199, color: '#7c3aed' },
+  { name: 'Sports',        count: 5900, color: '#ff6b35' },
+  { name: 'General',       count: 5536, color: '#06d6a0' },
+  { name: 'Law&Justice',   count: 3829, color: '#3b82f6' },
+  { name: 'Business',      count: 2983, color: '#f59e0b' },
+  { name: 'Crime',         count: 2750, color: '#ef4444' },
+  { name: 'Economy',       count: 2093, color: '#14b8a6' },
+  { name: 'Entertainment', count: 1840, color: '#ec4899' },
+  { name: 'Technology',    count: 1492, color: '#8b5cf6' },
+  { name: 'SocialIssues',  count: 1188, color: '#f97316' },
+  { name: 'Science/Health',count: 351,  color: '#22c55e' },
+];
+
+// Init samples
+const grid = document.getElementById('samplesGrid');
+SAMPLES.forEach(s => {
+  const pill = document.createElement('button');
+  pill.className = 'sample-pill';
+  pill.textContent = s.substring(0, 48) + '…';
+  pill.onclick = () => {
+    document.getElementById('inputText').value = s;
+    updateCharCount();
+    generate();
+  };
+  grid.appendChild(pill);
+});
+
+// Init domain distribution
+const distEl = document.getElementById('domainDist');
+const maxCount = 3000;
+DOMAINS.forEach(d => {
+  const row = document.createElement('div');
+  row.className = 'domain-row';
+  const pct = Math.round((d.count / maxCount) * 100);
+  row.innerHTML = `
+    <div class="domain-name">${d.name}</div>
+    <div class="domain-bar-wrap">
+      <div class="domain-bar" style="width:${pct}%;background:${d.color}"></div>
+    </div>
+    <div class="domain-count">${d.count.toLocaleString()}</div>
+  `;
+  distEl.appendChild(row);
+});
+
+// Char counter
+const ta = document.getElementById('inputText');
+ta.addEventListener('input', updateCharCount);
+function updateCharCount() {
+  document.getElementById('charCount').textContent = ta.value.length;
+}
+
+// Tab switching
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['visual','confidence','json'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// Pipeline animation
+function animatePipeline(cb) {
+  const steps = [1,2,3,4,5];
+  steps.forEach(n => {
+    const el = document.getElementById('step-' + n);
+    el.classList.remove('active','done');
+  });
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i > 0) {
+      document.getElementById('step-' + i).classList.remove('active');
+      document.getElementById('step-' + i).classList.add('done');
+    }
+    i++;
+    if (i <= 5) {
+      document.getElementById('step-' + i).classList.add('active');
+    } else {
+      clearInterval(interval);
+      if (cb) cb();
+    }
+  }, 180);
+}
+
+// Main generate
+async function generate() {
+  const text = document.getElementById('inputText').value.trim();
+  if (!text) { showToast('Please enter some text first'); return; }
+
+  const btn = document.getElementById('generateBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('errorBox').classList.remove('show');
+  document.getElementById('copyRow').style.display = 'none';
+
+  // Reset results
+  document.getElementById('visualResults').innerHTML = '<div class="results-placeholder"><div class="icon" style="animation:spin 1s linear infinite;display:inline-block">◌</div><p>Running inference…</p></div>';
+  document.getElementById('confResults').innerHTML = '<div class="results-placeholder"><p>Processing…</p></div>';
+  document.getElementById('jsonResults').innerHTML = '<div class="results-placeholder"><p>Waiting…</p></div>';
+
+  animatePipeline(null);
+
+  const t0 = performance.now();
+
+  try {
+    const res = await fetch(`${API}/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, threshold: 0.3, top_k: 10 }),
+    });
+
+    const elapsed = Math.round(performance.now() - t0);
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || 'API error');
+    }
+
+    const data = await res.json();
+    lastResponse = data;
+
+    // Mark all pipeline steps done
+    setTimeout(() => {
+      [1,2,3,4,5].forEach(n => {
+        const el = document.getElementById('step-' + n);
+        el.classList.remove('active');
+        el.classList.add('done');
+      });
+    }, 900);
+
+    renderResults(data, elapsed);
+
+  } catch (e) {
+    [1,2,3,4,5].forEach(n => document.getElementById('step-' + n).classList.remove('active','done'));
+    const box = document.getElementById('errorBox');
+    box.textContent = '⚠ ' + (e.message.includes('fetch') ? 'Cannot connect to API. Make sure python api/main.py is running on port 8000.' : e.message);
+    box.classList.add('show');
+    document.getElementById('visualResults').innerHTML = '<div class="results-placeholder"><div class="icon">✗</div><p>Error — see above</p></div>';
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function renderResults(data, elapsed) {
+  // Merge the new API schema (hashtags_normal and hashtags_relation)
+  let allTags = [];
+  if (data.hashtags_normal) allTags = allTags.concat(data.hashtags_normal);
+  if (data.hashtags_relation) allTags = allTags.concat(data.hashtags_relation);
+  
+  // If the old schema is returned, fall back to it
+  if (allTags.length === 0 && data.hashtags) {
+      data.hashtags.forEach(tag => {
+          allTags.push({ hashtag: tag, confidence: data.scores[tag] || 0, source: 'model' });
+      });
+  }
+
+  const hashtags = allTags.map(t => t.hashtag);
+  const scores = {};
+  const sources = {};
+  allTags.forEach(t => {
+      scores[t.hashtag] = t.confidence;
+      sources[t.hashtag] = t.source;
+  });
+
+  const avg = hashtags.length > 0 ? (Object.values(scores).reduce((a,b) => a+b, 0) / hashtags.length).toFixed(3) : "0.000";
+
+  // Perf row
+  document.getElementById('respTime').textContent = elapsed + 'ms';
+  // Perf row and HUD
+  document.getElementById('respTime').textContent = elapsed + 'ms';
+  document.getElementById('tagCount').textContent = hashtags.length;
+  document.getElementById('avgConf').textContent = avg;
+  document.getElementById('copyRow').style.display = 'block';
+  
+  let hwHUD = '';
+  if (data.hardware_metrics) {
+      hwHUD = `
+        <div style="display:flex; gap:15px; margin-bottom:20px; font-family:'Syne',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#cbd5e1;">
+          <div style="background:rgba(255,255,255,0.05); padding:6px 12px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">⏱ Latency: <span style="color:#fff;font-weight:bold">${elapsed}ms</span></div>
+          <div style="background:rgba(255,255,255,0.05); padding:6px 12px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">🧠 CPU: <span style="color:#06d6a0;font-weight:bold">${data.hardware_metrics.cpu_percent}%</span></div>
+          <div style="background:rgba(255,255,255,0.05); padding:6px 12px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">🎮 GPU VRAM: <span style="color:#ff6b35;font-weight:bold">${data.hardware_metrics.vram_mb} MB</span></div>
+          <div style="background:rgba(255,255,255,0.05); padding:6px 12px; border-radius:4px; border:1px solid rgba(255,255,255,0.1);">💾 Sys RAM: <span style="color:#3b82f6;font-weight:bold">${data.hardware_metrics.ram_mb} MB</span></div>
+        </div>
+      `;
+  }
+  document.getElementById('hwHudBox').innerHTML = hwHUD;
+  document.getElementById('resultMeta').innerHTML = `<span style="color:var(--primary); font-weight:bold;">✓ Generated ${hashtags.length} Tags</span>`;
+
+  // ── Visual tab ──
+  const chipGrid = document.createElement('div');
+  chipGrid.className = 'hashtag-grid';
+  hashtags.forEach((tag, idx) => {
+    const score = scores[tag] || 0;
+    const src = sources[tag] || 'model';
+    const tier = score >= 0.75 ? 'high' : score >= 0.5 ? 'mid' : 'low';
+    const chip = document.createElement('div');
+    chip.className = `hashtag-chip ${tier}`;
+    chip.style.animationDelay = (idx * 0.05) + 's';
+    chip.innerHTML = `<span class="tag-text">${tag}</span><span class="tag-score">${(score*100).toFixed(0)}% <span style="font-size: 0.6em; color: #8b9bb4; margin-left: 4px; text-transform: uppercase;">[${src.split('(')[0]}]</span></span>`;
+    chip.onclick = () => { navigator.clipboard.writeText(tag); showToast('Copied ' + tag); };
+    chipGrid.appendChild(chip);
+  });
+  document.getElementById('visualResults').innerHTML = '';
+  document.getElementById('visualResults').appendChild(chipGrid);
+
+  // ── Confidence tab ──
+  const confEl = document.createElement('div');
+  confEl.className = 'confidence-section';
+  const sorted = hashtags.slice().sort((a,b) => (scores[b]||0) - (scores[a]||0));
+  sorted.forEach((tag, idx) => {
+    const score = scores[tag] || 0;
+    const src = sources[tag] || 'model';
+    const tier = score >= 0.75 ? 'high' : score >= 0.5 ? 'mid' : 'low';
+    const row = document.createElement('div');
+    row.className = 'conf-row';
+    row.style.animationDelay = (idx * 0.06) + 's';
+    row.innerHTML = `
+      <div class="conf-label">${tag} <span style="font-size: 0.7em; color: #64748b; margin-left: 8px; text-transform: uppercase;">[${src}]</span></div>
+      <div class="conf-bar-wrap"><div class="conf-bar ${tier}" style="width:0%" data-target="${score*100}%"></div></div>
+      <div class="conf-val">${(score*100).toFixed(0)}%</div>
+    `;
+    confEl.appendChild(row);
+  });
+  document.getElementById('confResults').innerHTML = '';
+  document.getElementById('confResults').appendChild(confEl);
+  // Animate bars
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.conf-bar[data-target]').forEach(bar => {
+      bar.style.width = bar.dataset.target;
+    });
+  });
+
+  // ── JSON tab ──
+  const jsonStr = JSON.stringify(data, null, 2)
+    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+    .replace(/: "([^"]+)"/g, ': <span class="json-str">"$1"</span>')
+    .replace(/: ([0-9.]+)/g, ': <span class="json-num">$1</span>')
+    .replace(/[{}\[\]]/g, m => `<span class="json-bracket">${m}</span>`);
+  document.getElementById('jsonResults').innerHTML = `<div class="json-view">${jsonStr}</div>`;
+}
+
+function copyHashtags() {
+  if (!lastResponse) return;
+  let allTags = [];
+  if (lastResponse.hashtags_normal) allTags = allTags.concat(lastResponse.hashtags_normal.map(t => t.hashtag));
+  if (lastResponse.hashtags_relation) allTags = allTags.concat(lastResponse.hashtags_relation.map(t => t.hashtag));
+  if (allTags.length === 0 && lastResponse.hashtags) allTags = lastResponse.hashtags;
+  
+  navigator.clipboard.writeText(allTags.join(' '));
+  showToast('✓ Hashtags copied to clipboard');
+}
+function copyJSON() {
+  if (!lastResponse) return;
+  navigator.clipboard.writeText(JSON.stringify(lastResponse, null, 2));
+  showToast('✓ JSON copied to clipboard');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Enter key
+document.getElementById('inputText').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.ctrlKey) generate();
+});
+
+// Check API health on load
+(async () => {
+  try {
+    const r = await fetch(`${API}/`);
+    const d = await r.json();
+    document.querySelector('.status-pill').innerHTML = `<div class="status-dot"></div>API LIVE &middot; ${d.model} &middot; ${d.model_labels} labels`;
+  } catch {
+    document.querySelector('.status-pill').style.background = 'rgba(239,68,68,0.1)';
+    document.querySelector('.status-pill').style.borderColor = 'rgba(239,68,68,0.2)';
+    document.querySelector('.status-pill').style.color = '#fca5a5';
+    document.querySelector('.status-pill').innerHTML = '<div class="status-dot" style="background:#ef4444"></div>API OFFLINE';
+  }
+})();
+</script>
+</body>
+</html>
+ENDOFFILE
+echo "Done"
+Output

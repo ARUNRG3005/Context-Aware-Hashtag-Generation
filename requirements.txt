@@ -1,0 +1,21 @@
+# India Hashtag Generator - Project Dependencies
+# Core Backend
+fastapi>=0.100.0
+uvicorn>=0.20.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+python-multipart>=0.0.6
+psutil>=5.9.0
+
+# ML & Inference
+torch>=2.0.0
+transformers>=4.30.0
+scikit-learn>=1.2.0
+pandas>=2.0.0
+numpy>=1.24.0
+tqdm>=4.65.0
+
+# Data Gathering & Scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+feedparser>=6.0.10

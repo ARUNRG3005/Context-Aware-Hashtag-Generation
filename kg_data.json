@@ -1,0 +1,320 @@
+{
+  "name": "India KG",
+  "children": [
+    {
+      "name": "ArtsAndCulture",
+      "children": [
+        {
+          "name": "Festivals",
+          "value": 62,
+          "isLeaf": true
+        },
+        {
+          "name": "Heritage",
+          "value": 91,
+          "isLeaf": true
+        },
+        {
+          "name": "Literature",
+          "value": 169,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Business",
+      "children": [
+        {
+          "name": "Indian Business",
+          "value": 1409,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Crime",
+      "children": [
+        {
+          "name": "Controversies",
+          "value": 75,
+          "isLeaf": true
+        },
+        {
+          "name": "Indian Law",
+          "value": 23,
+          "isLeaf": true
+        },
+        {
+          "name": "Law Enforcement",
+          "value": 2,
+          "isLeaf": true
+        },
+        {
+          "name": "Social Issues",
+          "value": 20,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Defense",
+      "children": [
+        {
+          "name": "Armed Forces",
+          "value": 55,
+          "isLeaf": true
+        },
+        {
+          "name": "Army Regiments",
+          "value": 6,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Disasters",
+      "children": [
+        {
+          "name": "Natural Disasters",
+          "value": 29,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Economy",
+      "children": [
+        {
+          "name": "Banks",
+          "value": 9,
+          "isLeaf": true
+        },
+        {
+          "name": "Indian Economy",
+          "value": 56,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Education",
+      "children": [
+        {
+          "name": "Institutes",
+          "value": 55,
+          "isLeaf": true
+        },
+        {
+          "name": "Universities",
+          "value": 6,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Entertainment",
+      "children": [
+        {
+          "name": "Bollywood",
+          "value": 216,
+          "isLeaf": true
+        },
+        {
+          "name": "Indian Cinema",
+          "value": 556,
+          "isLeaf": true
+        },
+        {
+          "name": "Kollywood",
+          "value": 48,
+          "isLeaf": true
+        },
+        {
+          "name": "Mollywood",
+          "value": 128,
+          "isLeaf": true
+        },
+        {
+          "name": "Sandalwood",
+          "value": 16,
+          "isLeaf": true
+        },
+        {
+          "name": "Tollywood",
+          "value": 19,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Environment",
+      "children": [
+        {
+          "name": "Climate Issues",
+          "value": 23,
+          "isLeaf": true
+        },
+        {
+          "name": "National Parks",
+          "value": 1,
+          "isLeaf": true
+        },
+        {
+          "name": "Rivers",
+          "value": 18,
+          "isLeaf": true
+        },
+        {
+          "name": "Wildlife",
+          "value": 26,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "children": [
+        {
+          "name": "India Event",
+          "value": 2,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Geopolitics",
+      "children": [
+        {
+          "name": "Foreign Policy",
+          "value": 59,
+          "isLeaf": true
+        },
+        {
+          "name": "Treaties",
+          "value": 257,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "children": [
+        {
+          "name": "Hospitals",
+          "value": 13,
+          "isLeaf": true
+        },
+        {
+          "name": "Medical Institutions",
+          "value": 11,
+          "isLeaf": true
+        },
+        {
+          "name": "Public Health",
+          "value": 12,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "children": [
+        {
+          "name": "Transit",
+          "value": 3,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "LawAndJustice",
+      "children": [
+        {
+          "name": "Judges",
+          "value": 82,
+          "isLeaf": true
+        },
+        {
+          "name": "Law",
+          "value": 118,
+          "isLeaf": true
+        },
+        {
+          "name": "Supreme Court",
+          "value": 61,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Places",
+      "children": [
+        {
+          "name": "Indian City",
+          "value": 190,
+          "isLeaf": true
+        },
+        {
+          "name": "Indian State",
+          "value": 38,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Politics",
+      "children": [
+        {
+          "name": "Elections",
+          "value": 217,
+          "isLeaf": true
+        },
+        {
+          "name": "Indian Politics",
+          "value": 193,
+          "isLeaf": true
+        },
+        {
+          "name": "Political Party",
+          "value": 263,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Science",
+      "children": [
+        {
+          "name": "Indian Science",
+          "value": 495,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Sports",
+      "children": [
+        {
+          "name": "Athletics",
+          "value": 9091,
+          "isLeaf": true
+        },
+        {
+          "name": "Cricket",
+          "value": 2,
+          "isLeaf": true
+        }
+      ]
+    },
+    {
+      "name": "Startups",
+      "children": [
+        {
+          "name": "Tech Startups",
+          "value": 20,
+          "isLeaf": true
+        }
+      ]
+    }
+  ]
+}
